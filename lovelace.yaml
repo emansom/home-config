@@ -1,0 +1,352 @@
+title: Home
+views:
+  - theme: Backend-selected
+    path: default_view
+    title: Appartement
+    icon: ''
+    subview: false
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: entity
+                entity: person.ewout
+                content_info: state
+                use_entity_picture: true
+              - type: weather
+                entity: weather.buienradar
+                show_conditions: true
+                show_temperature: true
+                tap_action:
+                  action: navigate
+                  navigation_path: /lovelace/weather
+              - type: entity
+                entity: sensor.estimated_illuminance
+                use_entity_picture: false
+              - type: light
+                entity: light.all_lights
+                use_light_color: true
+            alignment: center
+          - type: custom:mushroom-title-card
+            title: Biodynamische verlichting
+            alignment: start
+            subtitle: >-
+              Automatische kleurtemperatuur en lichtintensiteit gedurende de
+              dag.
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: input_boolean.biodynamic_brightness_adjust
+                layout: horizontal
+                fill_container: false
+                name: Lichtsterkte
+                tap_action:
+                  action: toggle
+              - type: custom:mushroom-entity-card
+                entity: input_boolean.biodynamic_flux_adjust
+                layout: horizontal
+                fill_container: false
+                name: Kleuraanpassing
+                tap_action:
+                  action: toggle
+          - type: custom:mushroom-entity-card
+            entity: input_boolean.biodynamic_swap_algorithm
+            layout: horizontal
+            fill_container: false
+            name: Keer de werking om (TODO)
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Thuiswerkhoek
+            alignment: start
+            subtitle: Stabureau bediening (WIP) en bureaulamp
+          - type: custom:mushroom-light-card
+            entity: light.desk
+            name: Tafellamp
+            use_light_color: true
+            show_brightness_control: false
+            fill_container: false
+            show_color_control: true
+            collapsible_controls: false
+            show_color_temp_control: false
+            layout: horizontal
+            icon: mdi:lamp
+            card_mod:
+              style: |
+                ha-card {
+                  {% set r = state_attr(config.entity, 'rgb_color')[0] %}
+                  {% set g = state_attr(config.entity, 'rgb_color')[1] %}
+                  {% set b = state_attr(config.entity, 'rgb_color')[2] %}
+                  {% if is_state(config.entity, 'on') %}
+                      --ha-card-background: rgba({{r}}, {{g}}, {{b}},0.1);
+                  {% endif %}
+                }
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Badkamer
+            alignment: start
+            subtitle: Plafondlampen
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.ceiling_bathroom
+                use_light_color: true
+                show_color_control: false
+                show_brightness_control: false
+                fill_container: false
+                layout: horizontal
+                name: Plafondlamp
+                card_mod:
+                  style: |
+                    ha-card {
+                      {% set r = state_attr(config.entity, 'rgb_color')[0] %}
+                      {% set g = state_attr(config.entity, 'rgb_color')[1] %}
+                      {% set b = state_attr(config.entity, 'rgb_color')[2] %}
+                      {% if is_state(config.entity, 'on') %}
+                          --ha-card-background: rgba({{r}}, {{g}}, {{b}},0.1);
+                      {% endif %}
+                    }
+              - type: custom:mushroom-entity-card
+                entity: input_boolean.bathroom_light_always_white
+                layout: horizontal
+                fill_container: false
+                tap_action:
+                  action: toggle
+                secondary_info: state
+                primary_info: name
+                icon: mdi:white-balance-iridescent
+                icon_type: icon
+                name: Licht op wit
+          - type: custom:mushroom-title-card
+            title: Keuken
+            alignment: start
+            subtitle: Plafondlampen en raamdecoratie
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.ceiling_kitchen
+                name: Plafondlamp
+                icon: mdi:ceiling-light
+                layout: horizontal
+                use_light_color: true
+                show_color_temp_control: false
+                show_color_control: false
+                show_brightness_control: false
+                fill_container: false
+                card_mod:
+                  style: |
+                    ha-card {
+                      {% set r = state_attr(config.entity, 'rgb_color')[0] %}
+                      {% set g = state_attr(config.entity, 'rgb_color')[1] %}
+                      {% set b = state_attr(config.entity, 'rgb_color')[2] %}
+                      {% if is_state(config.entity, 'on') %}
+                          --ha-card-background: rgba({{r}}, {{g}}, {{b}},0.1);
+                      {% endif %}
+                    }
+              - type: custom:mushroom-cover-card
+                entity: cover.kitchen_covers
+                layout: horizontal
+                icon: mdi:roller-shade
+                name: Rolgordijnen
+                show_position_control: false
+                show_buttons_control: false
+                show_tilt_position_control: false
+          - type: custom:mushroom-title-card
+            title: Slaaphoek
+            subtitle: Spotlampen en raamdecoratie
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.spotlights_sleeping_area
+                layout: horizontal
+                use_light_color: true
+                show_brightness_control: false
+                show_color_control: false
+                name: Spotlampen
+                icon: mdi:lightbulb-spot
+                card_mod:
+                  style: |
+                    ha-card {
+                      {% set r = state_attr(config.entity, 'rgb_color')[0] %}
+                      {% set g = state_attr(config.entity, 'rgb_color')[1] %}
+                      {% set b = state_attr(config.entity, 'rgb_color')[2] %}
+                      {% if is_state(config.entity, 'on') %}
+                          --ha-card-background: rgba({{r}}, {{g}}, {{b}},0.1);
+                      {% endif %}
+                    }
+              - type: custom:mushroom-cover-card
+                entity: cover.living_area_covers
+                layout: horizontal
+                show_buttons_control: false
+                icon: mdi:roller-shade
+                name: Rolgordijnen
+  - theme: Backend-selected
+    title: Bedieningspaneel
+    path: bedieningspaneel
+    subview: true
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Scenes
+            alignment: start
+            subtitle: Activeer een sfeer
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: scene.daylight
+                layout: horizontal
+                fill_container: false
+                tap_action:
+                  action: toggle
+                secondary_info: none
+              - type: custom:mushroom-entity-card
+                entity: scene.night
+                layout: horizontal
+                fill_container: false
+                tap_action:
+                  action: toggle
+                secondary_info: none
+      - type: entities
+        entities:
+          - entity: sensor.arris_tg2492lg_85_router_external_ip
+            name: External IP
+          - entity: binary_sensor.arris_tg2492lg_85_router_wan_status
+            name: Wan status
+        title: ARRIS TG2492LG-85 Router
+      - type: entities
+        entities:
+          - entity: sensor.arris_tg2492lg_85_router_kib_s_received
+            name: KiB/s received
+          - entity: sensor.arris_tg2492lg_85_router_kib_s_sent
+            name: KiB/s sent
+        title: ARRIS TG2492LG-85 Router
+      - type: entities
+        entities:
+          - entity: sensor.tradfri_blind_2
+          - entity: sensor.tradfri_blind_3
+          - entity: sensor.tradfri_blind_4
+          - entity: sensor.tradfri_blind_5
+          - entity: sensor.tradfri_blind_6
+          - entity: sensor.moto_e_6_plus_battery_level
+          - entity: sensor.tradfri_open_close_remote
+          - entity: sensor.tradfri_remote_control
+          - entity: sensor.tradfri_remote_control_2
+  - theme: Backend-selected
+    title: Weer
+    path: weather
+    icon: ''
+    subview: true
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Buienradar
+            alignment: start
+            subtitle: Actuele neerslag boven Groningen in beeld
+          - type: custom:neerslag-card
+            title: Neerslag
+            entities:
+              - sensor.neerslag_buienalarm_regen_data
+              - sensor.neerslag_buienradar_regen_data
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Buienkaart
+            alignment: start
+            subtitle: Verwachte buien over Nederland
+          - type: picture-entity
+            camera_view: live
+            entity: camera.buienradar
+            show_state: false
+            show_name: false
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Weersverwachtingen
+            alignment: start
+            subtitle: MeteoAlarm, Buienradar en KNMI
+          - type: custom:meteoalarm-card
+            entities:
+              - entity: binary_sensor.meteoalarm
+            integration: meteoalarm
+            scaling_mode: headline_and_scale
+          - type: weather-forecast
+            entity: weather.buienradar
+          - show_current: true
+            show_forecast: true
+            type: weather-forecast
+            entity: weather.knmi_thuis
+            name: KNMI
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Onweerradar
+            alignment: start
+            subtitle: Blitzortung
+          - aspect_ratio: 100%
+            type: iframe
+            url: >-
+              https://map.blitzortung.org/index.php?interactive=0&NavigationControl=0&FullScreenControl=0&Cookies=0&InfoDiv=0&MenuButtonDiv=0&ScaleControl=0&LinksCheckboxChecked=1&MapalLuetyDISE&RANGE%20=%20%22ancho%20=%22%20480%20%22alto%20=%22%20360%20%22#7.32/53.054/6.257
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Wolkenradar
+            alignment: start
+            subtitle: TODO
+          - type: iframe
+            url: >-
+              https://www.buienradar.nl/nederland/zon-en-wolken/wolkenradar/3uurs
+            aspect_ratio: 75%
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Maankalender
+            alignment: start
+            subtitle: TODO
+          - type: iframe
+            url: https://nl.rhythmofnature.net/
+            aspect_ratio: 200%
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Zonnestand
+            alignment: start
+          - type: entities
+            entities:
+              - entity: sensor.nautical_dawn
+                name: Nautische ochtendschemering
+              - entity: sensor.nautical_dusk
+                name: Nautische avondschemering
+            state_color: false
+          - hours_to_show: 24
+            graph: line
+            type: sensor
+            entity: sensor.estimated_illuminance
+            detail: 2
+            name: Lichtintensiteit buiten
+            unit: lux
+            icon: mdi:sun-clock-outline
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Windradar
+            alignment: start
+            subtitle: TODO
+          - type: iframe
+            url: https://www.windy.com/?53.203,4.916,8
+            aspect_ratio: 75%
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Elektriciteitskaart
+            alignment: start
+            subtitle: TODO
+          - type: iframe
+            url: https://app.electricitymaps.com/zone/NL
+
